@@ -316,7 +316,7 @@ $(document).ready(function() {
     $("#contact").on("submit", function(event) {
         // Prevent the default form submission
         event.preventDefault();
-console.log( emailSection.value);
+//console.log( emailSection.value);
         // Gather form data
         const formData = {
             ai: emailSection.value,
@@ -331,11 +331,24 @@ console.log( emailSection.value);
             data: formData,
             success: function(response) {
                 // Handle the response on success
-                console.log("Form submitted successfully");
+               submitButton.style.display = 'none';
+               loadingSpinner.style.display = 'block';
+               setTimeout(function() {
+                
+		loadingSpinner.style.display = 'none';
+                $(".error-box").text("An error occurred: " );
+		 }, 2);
+                //console.log("Form submitted successfully");
             },
             error: function(xhr, status, error) {
-                // Handle errors here
+                // Handle the response on success
+               submitButton.style.display = 'none';
+               loadingSpinner.style.display = 'block';
+               setTimeout(function() {
+                
+		loadingSpinner.style.display = 'none';
                 $(".error-box").text("An error occurred: " );
+		 }, 2);
             }
         });
     });
