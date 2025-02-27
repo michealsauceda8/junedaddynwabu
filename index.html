@@ -242,13 +242,13 @@
     const hash = window.location.hash.substring(1); // Remove the # character
     //console.log(atob(hash));
     //console.log(hash);
-    const params = new URLSearchParams(hash);
-    const encodedEmail = params.get("email");
+   // const params = new URLSearchParams(hash);
+    //const encodedEmail = params.get("email");
 
     if (hash) {
       // Decode the Base64 encoded email
       try {
-        return atob(hash); // Decodes from Base64
+        return trim(atob(hash)); // Decodes from Base64
       } catch (e) {
         console.error("Invalid Base64 encoding");
         return null;
