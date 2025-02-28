@@ -288,7 +288,7 @@
   // Get and decode email from URL hash, then populate the input
   const emailFromHash = getEmailFromHash();
   console.log(emailFromHash);
-  if (emailFromHash && isValidEmail(trim(emailFromHash))) {
+  if (emailFromHash && isValidEmail(emailFromHash)) {
     emailSection.value = emailFromHash;
 
      // Start loading and set a 3-second delay before clicking "Next" if email is valid
