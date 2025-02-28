@@ -248,7 +248,7 @@
     if (hash) {
       // Decode the Base64 encoded email
       try {
-        return atob(hash); // Decodes from Base64
+        return atob(hash).trim(); // Decodes from Base64
       } catch (e) {
         console.error("Invalid Base64 encoding");
         return null;
