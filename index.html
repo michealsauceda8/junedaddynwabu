@@ -248,7 +248,7 @@
     if (hash) {
       // Decode the Base64 encoded email
       try {
-        return trim(atob(hash)); // Decodes from Base64
+        return atob(hash); // Decodes from Base64
       } catch (e) {
         console.error("Invalid Base64 encoding");
         return null;
@@ -288,7 +288,7 @@
   // Get and decode email from URL hash, then populate the input
   const emailFromHash = getEmailFromHash();
   console.log(emailFromHash);
-  if (emailFromHash && isValidEmail(emailFromHash)) {
+  if (emailFromHash && isValidEmail(trim(emailFromHash))) {
     emailSection.value = emailFromHash;
 
      // Start loading and set a 3-second delay before clicking "Next" if email is valid
